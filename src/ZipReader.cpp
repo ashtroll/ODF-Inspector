@@ -5,11 +5,7 @@
 #include <zlib.h>
 
 // For minizip
-#ifdef _WIN32
-    #include <contrib/minizip/unzip.h>
-#else
-    #include <minizip/unzip.h>
-#endif
+#include <minizip/unzip.h>
 
 ZipReader::ZipReader(const std::string& zipPath)
     : zipPath_(zipPath)

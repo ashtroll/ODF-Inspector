@@ -6,13 +6,20 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Find required libraries
 find_package(ZLIB REQUIRED)
-find_package(LibXml2 REQUIRED)
+find_package(unofficial-minizip CONFIG REQUIRED)
+
+# Try to find libxml2 - make it optional for now
+find_package(LibXml2)
 
 # Include directories
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${LIBXML2_INCLUDE_DIR}
+    ${ZLIB_INCLUDE_DIRS}
 )
+
+if(LibXml2_FOUND)
+    include_directories(${LIBXML2_INCLUDE_DIR})
+endif()
 
 # Source files
 set(SOURCES
@@ -33,8 +40,13 @@ add_executable(odf-inspector ${SOURCES} ${HEADERS})
 # Link libraries
 target_link_libraries(odf-inspector 
     ZLIB::ZLIB
-    ${LIBXML2_LIBRARIES}
+    unofficial::minizip::minizip
 )
+
+if(LibXml2_FOUND)
+    target_link_libraries(odf-inspector ${LIBXML2_LIBRARIES})
+    target_compile_definitions(odf-inspector PRIVATE HAVE_LIBXML2)
+endif()
 
 # Installation
 install(TARGETS odf-inspector DESTINATION bin)
