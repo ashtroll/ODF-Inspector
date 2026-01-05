@@ -22,8 +22,14 @@ if(LibXml2_FOUND)
 endif()
 
 # Source files
-set(SOURCES
+set(CLI_SOURCES
     src/main.cpp
+    src/ODFInspector.cpp
+    src/ZipReader.cpp
+)
+
+set(GUI_SOURCES
+    src/gui_main.cpp
     src/ODFInspector.cpp
     src/ZipReader.cpp
 )
@@ -34,22 +40,35 @@ set(HEADERS
     include/ZipReader.h
 )
 
-# Create executable
-add_executable(odf-inspector ${SOURCES} ${HEADERS})
+# Create CLI executable
+add_executable(odf-inspector ${CLI_SOURCES} ${HEADERS})
 
-# Link libraries
+# Create GUI executable
+add_executable(odf-inspector-gui WIN32 ${GUI_SOURCES} ${HEADERS})
+
+# Link libraries for CLI
 target_link_libraries(odf-inspector 
     ZLIB::ZLIB
     unofficial::minizip::minizip
 )
 
+# Link libraries for GUI
+target_link_libraries(odf-inspector-gui
+    ZLIB::ZLIB
+    unofficial::minizip::minizip
+    comctl32
+)
+
 if(LibXml2_FOUND)
     target_link_libraries(odf-inspector ${LIBXML2_LIBRARIES})
     target_compile_definitions(odf-inspector PRIVATE HAVE_LIBXML2)
+    
+    target_link_libraries(odf-inspector-gui ${LIBXML2_LIBRARIES})
+    target_compile_definitions(odf-inspector-gui PRIVATE HAVE_LIBXML2)
 endif()
 
 # Installation
-install(TARGETS odf-inspector DESTINATION bin)
+install(TARGETS odf-inspector odf-inspector-gui DESTINATION bin)
 
 # Enable warnings
 if(MSVC)
