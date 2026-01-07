@@ -111,4 +111,5 @@ This tool helps you:
 
 ## License
 
-MIT License - Feel free to use and modify for your LibreOffice contribution work!
+MIT License - Feel free to use and modify for your LibreOffice contribution work!..
+
