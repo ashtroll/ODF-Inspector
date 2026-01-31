@@ -1,4 +1,4 @@
-# ODF Inspector
+# ODF Inspector.
 
 A C++ tool for inspecting Open Document Format (ODF) files, useful for LibreOffice development and debugging.
 
@@ -112,4 +112,5 @@ This tool helps you:
 ## License
 
 MIT License - Feel free to use and modify for your LibreOffice contribution work!..
+
 
